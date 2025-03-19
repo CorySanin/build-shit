@@ -12,9 +12,9 @@ const fsp = fs.promises;
 const STYLESDIR = 'styles';
 const SCRIPTSDIR = 'scripts';
 const IMAGESDIR = path.join('assets', 'images', 'original');
-const STYLEOUTDIR = process.env.STYLEOUTDIR || path.join(import.meta.dirname, 'assets', 'css');
-const SCRIPTSOUTDIR = process.env.SCRIPTSOUTDIR || path.join(import.meta.dirname, 'assets', 'js');
-const IMAGESOUTDIR = process.env.IMAGESOUTDIR || path.join(import.meta.dirname, 'assets', 'images', 'webp');
+const STYLEOUTDIR = process.env.STYLEOUTDIR || path.join('assets', 'css');
+const SCRIPTSOUTDIR = process.env.SCRIPTSOUTDIR || path.join('assets', 'js');
+const IMAGESOUTDIR = process.env.IMAGESOUTDIR || path.join('assets', 'images', 'webp');
 const STYLEOUTFILE = process.env.STYLEOUTFILE || 'styles.css';
 const SQUASH = new RegExp('^[0-9]+-');
 
