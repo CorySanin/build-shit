@@ -6,7 +6,7 @@ WebP conversion requires libwebp.
 ## Installation
 
 ```
-npm install --save-dev build-shit
+npm install --save-dev forking-build-shit
 ```
 
 ## Usage
