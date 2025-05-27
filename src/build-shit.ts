@@ -34,30 +34,35 @@ async function mkdir(dir: string | string[]) {
     }
 }
 
+function getFileExtension(filename: string) {
+    const split = filename.split('.');
+    return split[split.length - 1].toLowerCase();
+}
+
 // Process styles
 async function styles() {
     await mkdir([STYLEOUTDIR, STYLESDIR]);
     await emptyDir(STYLEOUTDIR);
-    let styles: string[] = [];
-    let files = await fsp.readdir(STYLESDIR);
+    const styles: string[] = [];
+    const files = await fsp.readdir(STYLESDIR);
     await Promise.all(files.map(f => new Promise(async (res, reject) => {
-        let p = path.join(STYLESDIR, f);
+        const p = path.join(STYLESDIR, f);
         console.log(`Processing style ${p}`);
-        let style = sass.compile(p).css;
+        const style = sass.compile(p).css;
         if (f.charAt(0) !== '_') {
             if (SQUASH.test(f)) {
                 styles.push(style);
             }
             else {
-                let o = path.join(STYLEOUTDIR, f.substring(0, f.lastIndexOf('.')) + '.css');
+                const o = path.join(STYLEOUTDIR, f.substring(0, f.lastIndexOf('.')) + '.css');
                 await fsp.writeFile(o, csso.minify(style).css);
                 console.log(`Wrote ${o}`);
             }
         }
         res(0);
     })));
-    let out = csso.minify(styles.join('\n')).css;
-    let outpath = path.join(STYLEOUTDIR, STYLEOUTFILE);
+    const out = csso.minify(styles.join('\n')).css;
+    const outpath = path.join(STYLEOUTDIR, STYLEOUTFILE);
     await fsp.writeFile(outpath, out);
     console.log(`Wrote ${outpath}`);
 }
@@ -66,10 +71,10 @@ async function styles() {
 async function scripts() {
     await mkdir([SCRIPTSOUTDIR, SCRIPTSDIR]);
     await emptyDir(SCRIPTSOUTDIR);
-    let files = await fsp.readdir(SCRIPTSDIR);
+    const files = await fsp.readdir(SCRIPTSDIR);
     await Promise.all(files.map(f => new Promise(async (res, reject) => {
-        let p = path.join(SCRIPTSDIR, f);
-        let o = path.join(SCRIPTSOUTDIR, f);
+        const p = path.join(SCRIPTSDIR, f);
+        const o = path.join(SCRIPTSOUTDIR, f);
         console.log(`Processing script ${p}`);
         try {
             await fsp.writeFile(o, uglifyjs.minify((await fsp.readFile(p)).toString()).code);
@@ -84,25 +89,34 @@ async function scripts() {
 
 // Process images
 async function images(dir = '') {
-    let p = path.join(IMAGESDIR, dir);
+    const p = path.join(IMAGESDIR, dir);
     await mkdir(p);
     if (dir.length === 0) {
         await mkdir(IMAGESOUTDIR)
         await emptyDir(IMAGESOUTDIR);
     }
-    let files = await fsp.readdir(p, {
+    const files = await fsp.readdir(p, {
         withFileTypes: true
     });
     if (files.length) {
         await Promise.all(files.map(f => new Promise(async (res, reject) => {
             if (f.isFile()) {
-                let outDir = path.join(IMAGESOUTDIR, dir);
-                let infile = path.join(p, f.name);
-                let outfile = path.join(outDir, f.name.substring(0, f.name.lastIndexOf('.')) + '.webp');
+                const outDir = path.join(IMAGESOUTDIR, dir);
+                const infile = path.join(p, f.name);
+                const extension = getFileExtension(infile);
+                const outfile = path.join(outDir, f.name.substring(0, f.name.lastIndexOf('.')) + '.webp');
                 await mkdir(outDir);
                 console.log(`Processing image ${infile}`)
-                let process = spawn('cwebp', ['-mt', '-q', '50', infile, '-o', outfile]);
-                let timeout = setTimeout(() => {
+                const libwebpArgs = ['-mt'];
+                if (extension === 'jpeg' || extension === 'jpg') {
+                    libwebpArgs.push('-q', '60');
+                }
+                else {
+                    libwebpArgs.push('-near_lossless', '55');
+                }
+                libwebpArgs.push(infile, '-o', outfile);
+                const process = spawn('cwebp', libwebpArgs);
+                const timeout = setTimeout(() => {
                     reject('Timed out');
                     process.kill();
                 }, 30000);
