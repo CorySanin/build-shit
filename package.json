@@ -1,6 +1,6 @@
 {
   "name": "forking-build-shit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Tiny script for preparing web assets for deployment",
   "homepage": "https://github.com/CorySanin/build-shit#readme",
   "bugs": {
@@ -8,13 +8,13 @@
   },
   "dependencies": {
     "csso": "5.0.5",
-    "sass": "1.89.0",
+    "sass": "1.89.1",
     "uglify-js": "3.19.3"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "7.0.0",
     "@types/csso": "^5.0.4",
-    "@types/node": "^22.15.23",
+    "@types/node": "^22.15.30",
     "@types/uglify-js": "^3.17.5",
     "typescript": "5.8.3"
   },

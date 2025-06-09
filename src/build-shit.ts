@@ -115,12 +115,12 @@ async function images(dir = '') {
                     libwebpArgs.push('-near_lossless', '55');
                 }
                 libwebpArgs.push(infile, '-o', outfile);
-                const process = spawn('cwebp', libwebpArgs);
+                const proc = spawn('cwebp', libwebpArgs);
                 const timeout = setTimeout(() => {
                     reject('Timed out');
-                    process.kill();
-                }, 30000);
-                process.on('exit', async (code) => {
+                    proc.kill();
+                }, parseInt(process.env['CWEBPTIMEOUT']) || 30000);
+                proc.on('exit', async (code) => {
                     clearTimeout(timeout);
                     if (code === 0) {
                         console.log(`Wrote ${outfile}`);
