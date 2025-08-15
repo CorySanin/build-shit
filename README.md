@@ -4,9 +4,9 @@
 [![NPM Version](https://img.shields.io/npm/v/forking-build-shit)](https://www.npmjs.com/package/forking-build-shit)
 [![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/forking-build-shit)](https://www.npmjs.com/package/forking-build-shit)
 
-A build script for preparing files for production. It handles CSS and JavaScript minification, Sass compilation, and image conversion to WebP.
+A build script for preparing files for production. It handles CSS and JavaScript minification, Sass compilation, and image conversion to WebP and AVIF.
 
-WebP conversion requires libwebp.
+WebP conversion requires libwebp. AVIF conversion requires avifenc.
 
 ## Installation
 
