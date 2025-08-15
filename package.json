@@ -1,6 +1,6 @@
 {
   "name": "forking-build-shit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tiny script for preparing web assets for deployment",
   "homepage": "https://github.com/CorySanin/build-shit#readme",
   "bugs": {
@@ -8,15 +8,15 @@
   },
   "dependencies": {
     "csso": "5.0.5",
-    "sass": "1.89.1",
+    "sass": "1.90.0",
     "uglify-js": "3.19.3"
   },
   "devDependencies": {
-    "@sindresorhus/tsconfig": "7.0.0",
+    "@sindresorhus/tsconfig": "8.0.1",
     "@types/csso": "^5.0.4",
-    "@types/node": "^22.15.30",
+    "@types/node": "^24.3.0",
     "@types/uglify-js": "^3.17.5",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
   "license": "MIT",
   "author": {
     "name": "Cory Sanin",
-    "email": "corysanin@artixlinux.org",
+    "email": "corysanin@outlook.com",
     "url": "https://sanin.dev"
   },
   "type": "module",
