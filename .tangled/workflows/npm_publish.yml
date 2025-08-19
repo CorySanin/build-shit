@@ -1,0 +1,22 @@
+when:
+  - event: ["push"]
+    branch: ["master"]
+
+dependencies:
+  nixpkgs:
+    - nodejs
+
+steps:
+  - name: "Install dependencies"
+    command: "npm install"
+  
+  - name: "tsc"
+    nommand: "npx tsc"
+
+  - name: "npm publish"
+    command: "git log -1 --pretty=%B | grep -q '^publish new version' && npm publish --access public --token ${NPM_TOKEN}"
+
+clone:
+  skip: false
+  depth: 3
+  submodules: false
