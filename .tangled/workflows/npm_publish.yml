@@ -5,13 +5,14 @@ when:
 dependencies:
   nixpkgs:
     - nodejs
+    - gnugrep
 
 steps:
   - name: "Install dependencies"
     command: "npm install"
   
   - name: "tsc"
-    nommand: "npx tsc"
+    nommand: "npx tsc && echo 'done.'"
 
   - name: "npm publish"
     command: "git log -1 --pretty=%B | grep -q '^publish new version' && npm publish --access public --token ${NPM_TOKEN}"
