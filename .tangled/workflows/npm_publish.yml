@@ -15,7 +15,7 @@ steps:
     nommand: "npx tsc && echo 'done.'"
 
   - name: "npm publish"
-    command: "git log -1 --pretty=%B | grep -q '^publish new version' && npm publish --access public --token ${NPM_TOKEN}"
+    command: "git log -1 --pretty=%B | grep -q '^publish new version' && npm publish --access public --token ${NPM_TOKEN} || exit 0"
 
 clone:
   skip: false
