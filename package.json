@@ -2,9 +2,9 @@
   "name": "forking-build-shit",
   "version": "1.0.3",
   "description": "Tiny script for preparing web assets for deployment",
-  "homepage": "https://github.com/CorySanin/build-shit#readme",
+  "homepage": "https://tangled.sh/@sanin.dev/build-shit#readme",
   "bugs": {
-    "url": "https://github.com/CorySanin/build-shit/issues"
+    "url": "https://tangled.sh/@sanin.dev/build-shit/issues"
   },
   "dependencies": {
     "csso": "5.0.5",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CorySanin/build-shit.git"
+    "url": "git+https://tangled.sh/@sanin.dev/build-shit"
   },
   "license": "MIT",
   "author": {

@@ -1,6 +1,6 @@
 # build-shit
 
-[![GitHub License](https://img.shields.io/github/license/CorySanin/build-shit)](https://github.com/CorySanin/build-shit/blob/master/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/CorySanin/build-shit)](https://tangled.sh/@sanin.dev/build-shit/blob/master/LICENSE)
 [![NPM Version](https://img.shields.io/npm/v/forking-build-shit)](https://www.npmjs.com/package/forking-build-shit)
 [![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/forking-build-shit)](https://www.npmjs.com/package/forking-build-shit)
 
