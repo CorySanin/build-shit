@@ -2,6 +2,8 @@ when:
   - event: ["push"]
     branch: ["master"]
 
+engine: "nixery"
+
 dependencies:
   nixpkgs:
     - nodejs
