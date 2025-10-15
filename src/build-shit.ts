@@ -75,7 +75,7 @@ async function scripts() {
     await mkdir([SCRIPTSOUTDIR, SCRIPTSDIR]);
     await emptyDir(SCRIPTSOUTDIR);
     const files = await fsp.readdir(SCRIPTSDIR);
-    await Promise.all(files.map(f => new Promise(async (res, reject) => {
+    await Promise.all(files.filter(f => f.toLowerCase().endsWith('.js')).map(f => new Promise(async (res, _) => {
         const p = path.join(SCRIPTSDIR, f);
         const o = path.join(SCRIPTSOUTDIR, f);
         console.log(`Processing script ${p}`);

@@ -1,26 +1,26 @@
 {
   "name": "forking-build-shit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tiny script for preparing web assets for deployment",
-  "homepage": "https://tangled.sh/@sanin.dev/build-shit#readme",
+  "homepage": "https://tangled.org/@sanin.dev/build-shit#readme",
   "bugs": {
-    "url": "https://tangled.sh/@sanin.dev/build-shit/issues"
+    "url": "https://tangled.org/@sanin.dev/build-shit/issues"
   },
   "dependencies": {
     "csso": "5.0.5",
-    "sass": "1.90.0",
+    "sass": "1.93.2",
     "uglify-js": "3.19.3"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "8.0.1",
     "@types/csso": "^5.0.4",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.7.2",
     "@types/uglify-js": "^3.17.5",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://tangled.sh/@sanin.dev/build-shit"
+    "url": "git+https://tangled.org/@sanin.dev/build-shit"
   },
   "license": "MIT",
   "author": {
