@@ -1,26 +1,14 @@
 {
   "name": "forking-build-shit",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Tiny script for preparing web assets for deployment",
   "homepage": "https://tangled.org/@sanin.dev/build-shit#readme",
   "bugs": {
     "url": "https://tangled.org/@sanin.dev/build-shit/issues"
   },
-  "dependencies": {
-    "csso": "5.0.5",
-    "sass": "1.93.2",
-    "uglify-js": "3.19.3"
-  },
-  "devDependencies": {
-    "@sindresorhus/tsconfig": "8.0.1",
-    "@types/csso": "^5.0.4",
-    "@types/node": "^24.7.2",
-    "@types/uglify-js": "^3.17.5",
-    "typescript": "5.9.3"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://tangled.org/@sanin.dev/build-shit"
+    "url": "https://tangled.org/@sanin.dev/build-shit"
   },
   "license": "MIT",
   "author": {
@@ -29,12 +17,34 @@
     "url": "https://sanin.dev"
   },
   "type": "module",
-  "main": "bin/build-shit.js",
-  "bin": {
-    "build-shit": "./bin/build-shit.js",
-    "forking-build-shit": "./bin/build-shit.js"
+  "exports": {
+    ".": {
+      "types": "./distribution/src/index.d.ts",
+      "import": "./distribution/src/index.js"
+    }
   },
+  "main": "distribution/src/build-shit.js",
+  "types": "./distribution/src/index.d.ts",
+  "bin": {
+    "build-shit": "./distribution/src/build-shit.js",
+    "forking-build-shit": "./distribution/src/build-shit.js"
+  },
+  "files": [
+    "distribution"
+  ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && chmod +x ./distribution/src/build-shit.js"
+  },
+  "dependencies": {
+    "csso": "5.0.5",
+    "sass": "1.99.0",
+    "uglify-js": "3.19.3"
+  },
+  "devDependencies": {
+    "@sindresorhus/tsconfig": "8.1.0",
+    "@types/csso": "^5.0.4",
+    "@types/node": "^25.5.2",
+    "@types/uglify-js": "^3.17.5",
+    "typescript": "6.0.2"
   }
 }

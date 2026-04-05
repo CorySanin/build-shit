@@ -1,19 +1,12 @@
 {
-    "compilerOptions": {
-        "lib": [
-            "ESNext"
-        ],
-        "module": "NodeNext",
-        "target": "ESNext",
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "moduleResolution": "node16",
-        "outDir": "./bin"
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "**/*.spec.ts"
-    ]
+  "extends": "@sindresorhus/tsconfig",
+  "compilerOptions": {
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "rootDir": "./",
+    "types": ["node"],
+  },
+  "include": [
+    "src"
+  ]
 }

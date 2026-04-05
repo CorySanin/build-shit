@@ -98,4 +98,4 @@ public
 .dynamodb/
 
 distribution/*
-bin/*
+assets/*
