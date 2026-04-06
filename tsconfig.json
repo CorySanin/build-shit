@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "rootDir": "./",
     "types": ["node"],
+    "sourceMap": true
   },
   "include": [
     "src"

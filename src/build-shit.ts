@@ -7,12 +7,12 @@ import * as bs from './index.js';
 
 const STYLESDIR = 'styles';
 const SCRIPTSDIR = 'scripts';
-const IMAGESDIR = path.join(process.cwd(), 'assets', 'images', 'original');
+const IMAGESDIR = path.join('assets', 'images', 'original');
 const STYLEOUTDIR = process.env['STYLEOUTDIR'] || path.join('assets', 'css');
 const SCRIPTSOUTDIR = process.env['SCRIPTSOUTDIR'] || path.join('assets', 'js');
 const WEBPOUTDIR = process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'webp');
 const AVIFOUTDIR = process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'avif');
-const STYLEOUTFILE = process.env['STYLEOUTFILE'] || 'styles.css';
+const STYLEOUTFILE = process.env['STYLEOUTFILE'] || 'styles';
 
 function commandExists(cmd: string): Promise<boolean> {
     return new Promise((resolve, _) => {
@@ -56,9 +56,16 @@ function isAbortError(err: unknown): boolean {
         (async () => {
             try {
                 const watcher = fsp.watch(STYLESDIR);
-                for await (const _ of watcher)
-                    await doStyles();
-            } catch (err) {
+                for await (const _ of watcher) {
+                    try {
+                        await doStyles();
+                    }
+                    catch (err) {
+                        console.error(err);
+                    }
+                }
+            }
+            catch (err) {
                 if (isAbortError(err))
                     return;
                 throw err;
@@ -68,9 +75,16 @@ function isAbortError(err: unknown): boolean {
         (async () => {
             try {
                 const watcher = fsp.watch(SCRIPTSDIR);
-                for await (const _ of watcher)
-                    await doScripts();
-            } catch (err) {
+                for await (const _ of watcher) {
+                    try {
+                        await doScripts();
+                    }
+                    catch (err) {
+                        console.error(err);
+                    }
+                }
+            }
+            catch (err) {
                 if (isAbortError(err))
                     return;
                 throw err;
@@ -82,9 +96,16 @@ function isAbortError(err: unknown): boolean {
                 const watcher = fsp.watch(IMAGESDIR, {
                     recursive: true // no Linux ☹️
                 });
-                for await (const _ of watcher)
-                    await doImages();
-            } catch (err) {
+                for await (const _ of watcher) {
+                    try {
+                        await doImages();
+                    }
+                    catch (err) {
+                        console.error(err);
+                    }
+                }
+            }
+            catch (err) {
                 if (isAbortError(err))
                     return;
                 throw err;

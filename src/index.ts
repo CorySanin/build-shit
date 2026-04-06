@@ -18,6 +18,8 @@ export interface BatchImageProcessingOptions extends ImageProcessingOptions {
     input: string;
 }
 
+type StyleFilesMapping = Record<string, string[]>;
+
 async function emptyDir(dir: string) {
     await Promise.all((await fsp.readdir(dir, { withFileTypes: true })).map(f => path.join(dir, f.name)).map(p => fsp.rm(p, {
         recursive: true,
@@ -107,7 +109,10 @@ function convertAvif(infile: string, outDir: string) {
     });
 }
 
-// Process images
+/**
+ * Convert images to optimized webp and/or avif files
+ * @param options options for processing images
+ */
 export async function images(options: BatchImageProcessingOptions) {
     await mkdir(options.input);
     await mkdir(options.webpOut) && await emptyDir(options.webpOut);
@@ -118,7 +123,7 @@ export async function images(options: BatchImageProcessingOptions) {
     }
 }
 
-export async function processImage(parentDir: string, relativeFile: string, options: ImageProcessingOptions) {
+async function processImage(parentDir: string, relativeFile: string, options: ImageProcessingOptions) {
     const infile = path.join(parentDir, relativeFile);
     const dir = path.dirname(relativeFile);
     const outDirWebP = path.join(options.webpOut, dir);
@@ -130,35 +135,51 @@ export async function processImage(parentDir: string, relativeFile: string, opti
     options.avif && await convertAvif(infile, outDirAvif);
 }
 
-// Process styles
-export async function styles(inputDir: string, outputDir: string, outputFile: string) {
+/**
+ * Process styles.
+ * Sass is "compiled" and numbered files (^[0-9]+-) are combined into one.
+ * Use subdirectories to group files that should be combined.
+ * @param inputDir parent directory of styles
+ * @param outputDir directory to put processed stylesheets
+ * @param outputFile filename for combined styles that are a direct child of inputDir
+ */
+export async function styles(inputDir: string, outputDir: string, outputFile: string = 'styles') {
     await mkdir([outputDir, inputDir]);
     await emptyDir(outputDir);
-    const styles: string[] = [];
-    const files = await fsp.readdir(inputDir);
-    await Promise.all(files.map(f => new Promise(async (res, _) => {
-        const p = path.join(inputDir, f);
-        console.log(`Processing style ${p}`);
-        const style = sass.compile(p).css;
-        if (f.charAt(0) !== '_') {
-            if (SQUASH.test(f)) {
-                styles.push(style);
-            }
-            else {
-                const o = path.join(outputDir, f.substring(0, f.lastIndexOf('.')) + '.css');
-                await fsp.writeFile(o, csso.minify(style).css);
-                console.log(`Wrote ${o}`);
-            }
-        }
-        res(0);
-    })));
-    const out = csso.minify(styles.join('\n')).css;
-    const outpath = path.join(outputDir, outputFile);
-    await fsp.writeFile(outpath, out);
-    console.log(`Wrote ${outpath}`);
+    const map = await generateStyleGameplan(inputDir, outputFile);
+    const promises: Promise<any>[] = [];
+    for (let key in map) {
+        const files = map[key]!;
+        const squashable: string[] = [];
+        const standalonable: string[] = [];
+        files.forEach(f => {
+            (SQUASH.test(path.basename(f)) ? squashable : standalonable).push(f);
+        });
+        promises.push(style(squashable, path.join(outputDir, `${key}.css`)));
+        const standalonePromises = standalonable.map(async f => {
+            const out = path.join(outputDir, `${f.substring(inputDir.length, f.lastIndexOf('.'))}.css`);
+            await mkdir(path.dirname(out));
+            await style([f], out);
+        });
+        promises.push(...standalonePromises);
+    }
+    await Promise.all(promises);
 }
 
-// Process scripts
+async function style(filenames: string[], output: string): Promise<void> {
+    const styles: string[] = filenames.map(f => {
+        console.log(`Processing style ${f}`);
+        return sass.compile(f).css;
+    });
+    await fsp.writeFile(output, csso.minify(styles.join('\n')).css);
+    console.log(`Wrote ${output}`);
+}
+
+/**
+ * Minify JS files
+ * @param inputDir directory containing js to be minified
+ * @param outputDir directory to place minified js
+ */
 export async function scripts(inputDir: string, outputDir: string) {
     await mkdir([outputDir, inputDir]);
     await emptyDir(outputDir);
@@ -178,9 +199,22 @@ export async function scripts(inputDir: string, outputDir: string) {
     })));
 }
 
-async function getAllFiles(fullDir: string): Promise<string[]> {
+async function generateStyleGameplan(fullDir: string, rootName: string): Promise<StyleFilesMapping> {
+    const map: StyleFilesMapping = {};
+    (await getAllFiles(fullDir)).forEach(f => {
+        if (path.basename(f).charAt(0) === '_') {
+            return;
+        }
+        const dirname = path.dirname(f);
+        (map[dirname === '.' ? rootName : dirname] ||= []).push(path.join(fullDir, f));
+    });
+    return map;
+}
+
+async function getAllFiles(dir: string): Promise<string[]> {
+    const fullDir = path.resolve(dir);
     if (!path.isAbsolute(fullDir)) {
-        throw new Error('path must be absolute');
+        throw new Error(`path must be absolute. got ${fullDir}`);
     }
     const files: string[] = [];
     const dirs = [''];
