@@ -155,7 +155,9 @@ export async function styles(inputDir: string, outputDir: string, outputFile: st
         files.forEach(f => {
             (SQUASH.test(path.basename(f)) ? squashable : standalonable).push(f);
         });
-        promises.push(style(squashable, path.join(outputDir, `${key}.css`)));
+        const squashed = path.join(outputDir, `${key}.css`);
+        await mkdir(path.dirname(squashed));
+        promises.push(style(squashable, squashed));
         const standalonePromises = standalonable.map(async f => {
             const out = path.join(outputDir, `${f.substring(inputDir.length, f.lastIndexOf('.'))}.css`);
             await mkdir(path.dirname(out));

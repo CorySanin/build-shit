@@ -1,6 +1,6 @@
 {
   "name": "forking-build-shit",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Tiny script for preparing web assets for deployment",
   "homepage": "https://tangled.org/@sanin.dev/build-shit#readme",
   "bugs": {
