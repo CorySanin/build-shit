@@ -30,7 +30,8 @@
     "forking-build-shit": "./distribution/src/build-shit.js"
   },
   "files": [
-    "distribution"
+    "distribution",
+    "!distribution/**/*.js.map"
   ],
   "scripts": {
     "build": "tsc && chmod +x ./distribution/src/build-shit.js"
