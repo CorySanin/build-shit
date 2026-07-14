@@ -5,13 +5,13 @@ import fsp from 'fs/promises';
 import { spawn } from 'child_process';
 import * as bs from './index.js';
 
-const STYLESDIR = 'styles';
-const SCRIPTSDIR = 'scripts';
-const IMAGESDIR = path.join('assets', 'images', 'original');
+const STYLESDIR = process.env['STYLEINDIR'] || 'styles';
+const SCRIPTSDIR = process.env['SCRIPTINDIR'] || 'scripts';
+const IMAGESDIR = process.env['IMAGESINDIR'] || path.join('assets', 'images', 'original');
 const STYLEOUTDIR = process.env['STYLEOUTDIR'] || path.join('assets', 'css');
 const SCRIPTSOUTDIR = process.env['SCRIPTSOUTDIR'] || path.join('assets', 'js');
-const WEBPOUTDIR = process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'webp');
-const AVIFOUTDIR = process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'avif');
+const WEBPOUTDIR = process.env['WEBPOUTDIR'] || process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'webp');
+const AVIFOUTDIR = process.env['AVIFOUTDIR'] || process.env['IMAGESOUTDIR'] || path.join('assets', 'images', 'avif');
 const STYLEOUTFILE = process.env['STYLEOUTFILE'] || 'styles';
 
 function commandExists(cmd: string): Promise<boolean> {
