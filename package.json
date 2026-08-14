@@ -1,6 +1,6 @@
 {
   "name": "forking-build-shit",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Tiny script for preparing web assets for deployment",
   "homepage": "https://github.com/CorySanin/build-shit#build-shit",
   "bugs": {
@@ -38,20 +38,20 @@
   },
   "dependencies": {
     "csso": "5.0.5",
-    "sass": "1.101.3",
+    "sass": "1.102.0",
     "uglify-js": "3.19.3"
   },
   "devDependencies": {
     "@sindresorhus/tsconfig": "8.1.0",
-    "@types/csso": "^5.0.4",
-    "@types/node": "^25.5.2",
+    "@types/csso": "^5.0.5",
+    "@types/node": "26.2.0",
     "@types/uglify-js": "^3.17.5",
     "typescript": "7.0.2"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "^11.13.0",
+      "version": "^11.20.0",
       "onFail": "download"
     }
   }
