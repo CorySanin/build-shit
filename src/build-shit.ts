@@ -50,7 +50,8 @@ function isAbortError(err: unknown): boolean {
     if (!webp && !avif) {
         console.error('WARNING: no image encoding software found.');
     }
-    await Promise.all([doStyles(), doScripts(), doImages()]);
+    await doImages();
+    await Promise.all([doStyles(), doScripts()]);
     if (process.argv.indexOf('--watch') >= 0) {
         console.log('watching for changes...');
         (async () => {
